@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>Parent List</h1>
+  <a href="{% url 'nested_forms:parent-create' %}">new parent</a>
+  <br>
+  <br>
+  <ul class="list-group">
+    {% for parent in parent_list %}
+      <li class="list-group-item">
+        <a href="{% url 'nested_forms:parent-update' parent.pk %}">{{ parent.name }}</a>
+        <ul class="list-group">
+          {% for child in parent.children.all %}
+            <li class="list-group-item">{{ child.name }}</li>
+          {% empty %}
+            Without children
+          {% endfor %}
+        </ul>
+      </li>
+    {% empty %}
+      <p>No Parents</p>
+    {% endfor %}
+  </ul>
+{% endblock %}

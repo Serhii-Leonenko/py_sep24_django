@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% load crispy_forms_filters %}
+
+{% block content %}
+<h1>Parents</h1>
+<form method="post">
+  {% csrf_token %}
+  {{ form|crispy }}
+  <h2>Children</h2>
+  {{ children_form|crispy }}
+  <input type="submit" value="Save">
+</form>
+{% endblock %}
