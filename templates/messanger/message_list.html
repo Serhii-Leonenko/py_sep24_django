@@ -1,7 +1,6 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <script src="https://unpkg.com/htmx.org"></script>
   <ul class="list-group" id="messages">
     {% for message in page_obj %}
       <li class="list-group-item">{{ message.message }}</li>
