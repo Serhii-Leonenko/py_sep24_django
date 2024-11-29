@@ -1,7 +1,6 @@
 from django.forms.models import inlineformset_factory
 
-from nested_forms.models import Parent, Child
-
+from nested_forms.models import Child, Parent
 
 ChildFormset = inlineformset_factory(
     Parent, Child, fields=('name',), extra=1

@@ -2,6 +2,9 @@ import os
 from pathlib import Path
 
 from django.conf.global_settings import AUTH_USER_MODEL
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,17 +28,23 @@ INTERNAL_IPS = [
 # Application definition
 
 INSTALLED_APPS = [
+    # built in apps
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+
+    # third party apps
     "crispy_forms",
     "crispy_bootstrap5",
     "debug_toolbar",
+
+    # local apps
     "messanger",
-    "nested_forms"
+    "nested_forms",
+    "accounts"
 ]
 
 MIDDLEWARE = [
@@ -130,3 +139,13 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 CRISPY_TEMPLATE_PACK = "bootstrap5"
+
+LOGIN_REDIRECT_URL = "/"
+
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = os.environ['EMAIL_HOST_USER']
+EMAIL_HOST_PASSWORD = os.environ['EMAIL_HOST_PASSWORD']
+EMAIL_PORT = 587
+
+PASSWORD_RESET_TIMEOUT = 14400

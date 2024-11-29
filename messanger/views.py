@@ -1,12 +1,14 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import HttpResponse, HttpRequest, JsonResponse, HttpResponseRedirect
-from django.shortcuts import render, get_object_or_404
+from django.http import (HttpRequest, HttpResponse, HttpResponseRedirect,
+                         JsonResponse)
+from django.shortcuts import get_object_or_404, render
 from django.template.context_processors import request
-from django.views import generic, View
 from django.urls import reverse
+from django.views import View, generic
 from django.views.decorators.csrf import csrf_exempt
+
 from messanger.forms import MessageForm
 from messanger.models import Message
 
@@ -57,21 +59,16 @@ def message_create_view(request: HttpRequest) -> HttpResponse:
     form = MessageForm(request.POST or None)
 
     if form.is_valid():
-        message = form.save(commit=False)
-        # Message.objects.create(**form.cleaned_data)
-        message.user = request.user
+        user_id = form.cleaned_data.pop("user_id") or request.user.pk
+        message = Message(**form.cleaned_data)
+        message.user_id = user_id
         message.save()
 
-        return HttpResponseRedirect(reverse("message-list"))
+        return HttpResponseRedirect(reverse("user-messages", args=(user_id, )))
+
     context["form"] = form
 
     return render(request, "messanger/message_form.html", context=context)
-
-
-class UserDetailView(generic.DetailView):
-    model = get_user_model()
-    template_name = "messanger/user_detail.html"
-
 
 class UserMessagesView(View):
     def get(self, request, pk):
@@ -79,7 +76,7 @@ class UserMessagesView(View):
 
         return render(
             request,
-            "messanger/user_messages.html",
+            "messanger/partials/user_messages.html",
             {
                 "messages": messages,
             }

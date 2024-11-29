@@ -1,6 +1,7 @@
 from django.urls import path
 
-from nested_forms.views import ParentCreateView, ParentListView, ParentUpdateView
+from nested_forms.views import (ParentCreateView, ParentListView,
+                                ParentUpdateView)
 
 app_name = "nested_forms"
 

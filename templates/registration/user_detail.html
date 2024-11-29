@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>{{ user.username }}</h1>
+  <h4>Messages:</h4>
+  <ul hx-get="{% url 'user-messages' user.pk %}" hx-trigger="load" class="events-list"></ul>
+{#  <ul class="events-list"></ul>#}
+{#  <button hx-get="{% url 'user-messages' user.pk %}" hx-trigger="click" hx-target=".events-list">Load messages</button>#}
+  <form hx-post="{% url 'message-create' %}" hx-target=".events-list" hx-on::after-request="this.reset()">
+    {% csrf_token %}
+    {{ message_form.as_p }}
+    <input type="hidden" name="user_id" value="{{ user.id }}">
+    <input type="submit" value="Create message">
+  </form>
+{% endblock %}
