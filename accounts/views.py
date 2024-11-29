@@ -35,7 +35,7 @@ def register(request):
                 domain=domain,
                 uid=uid,
                 to_email=user.email,
-                token=token
+                token=token,
             )
 
             messages.info(request, "Please confirm your activation")
@@ -53,15 +53,17 @@ def activate(request, uid, token):
         user = None
 
     if user.is_active:
-        return HttpResponse('Your account is already activated')
+        return HttpResponse("Your account is already activated")
 
     if user is not None and account_activation_token.check_token(user, token):
         user.is_active = True
         user.save()
 
-        return HttpResponse('Thank you for your email confirmation. Now you can login your account.')
+        return HttpResponse(
+            "Thank you for your email confirmation. Now you can login your account."
+        )
     else:
-        return HttpResponse('Activation link is invalid!')
+        return HttpResponse("Activation link is invalid!")
 
 
 class UserDetailView(DetailView):

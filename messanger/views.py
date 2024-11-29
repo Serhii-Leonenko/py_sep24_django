@@ -1,8 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import (HttpRequest, HttpResponse, HttpResponseRedirect,
-                         JsonResponse)
+from django.http import HttpRequest, HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import get_object_or_404, render
 from django.template.context_processors import request
 from django.urls import reverse
@@ -64,11 +63,12 @@ def message_create_view(request: HttpRequest) -> HttpResponse:
         message.user_id = user_id
         message.save()
 
-        return HttpResponseRedirect(reverse("user-messages", args=(user_id, )))
+        return HttpResponseRedirect(reverse("user-messages", args=(user_id,)))
 
     context["form"] = form
 
     return render(request, "messanger/message_form.html", context=context)
+
 
 class UserMessagesView(View):
     def get(self, request, pk):
@@ -79,5 +79,5 @@ class UserMessagesView(View):
             "messanger/partials/user_messages.html",
             {
                 "messages": messages,
-            }
+            },
         )

@@ -10,24 +10,19 @@ User = get_user_model()
 
 class EmailService:
     def send_activation_email(
-            self,
-            username: str,
-            domain: str,
-            to_email: str,
-            uid: str,
-            token: str
+        self, username: str, domain: str, to_email: str, uid: str, token: str
     ) -> None:
-        mail_subject = 'Activation link has been sent to your email id'
+        mail_subject = "Activation link has been sent to your email id"
         from_email = settings.EMAIL_HOST_USER
 
         context = {
-                'username': username,
-                'domain': domain,
-                'uid': uid,
-                'token': token,
-            }
+            "username": username,
+            "domain": domain,
+            "uid": uid,
+            "token": token,
+        }
 
-        message = render_to_string('registration/acc_activate_email.html', context)
+        message = render_to_string("registration/acc_activate_email.html", context)
         send_mail(mail_subject, message, from_email, [to_email])
 
         # or for async
