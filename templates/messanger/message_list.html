@@ -1,23 +1,18 @@
 {% extends "base.html" %}
 
-{% block sidebar %}
-  {% if page_obj.number == 1 %}
-    {% include "includes/sidebar.html" %}
-  {% endif %}
-{% endblock %}
 
 {% block content %}
-<ul class="list-group" id="messages">
-  {% for message in page_obj %}
-    <li class="list-group-item">{{ message.message }}</li>
-  {% endfor %}
-</ul>
-{% if page_obj.has_next %}
-  <div
-    hx-get="{% url 'message-list' %}?page={{ page_obj.next_page_number }}"
-    hx-trigger="intersect once"
-    hx-swap="beforeend"
-    hx-target="#messages"
-  ></div>
-{% endif %}
+  <ul class="list-group message-list" id="messages" hx-get="{% url 'partial-message-list' %}" hx-trigger="load">
+  </ul>
+
+  <form
+      hx-post="{% url 'message-create' %}"
+      hx-target=".message-list"
+      hx-swap="beforeend"
+      hx-on::after-request="this.reset()">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="hidden" name="user" value="{{ request.user.pk }}">
+    <input type="submit" value="Create message" class="btn btn-primary">
+  </form>
 {% endblock %}

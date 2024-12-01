@@ -2,16 +2,23 @@ from django import forms
 
 from messanger.models import Message
 
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
+
 
 class MessageForm(forms.ModelForm):
-    user_id = forms.IntegerField(widget=forms.HiddenInput(), required=False)
+    user = forms.ModelChoiceField(
+        widget=forms.HiddenInput(),
+        queryset=User.objects.all(),
+    )
     message = forms.CharField(
         widget=forms.Textarea(attrs={"class": "form-control", "rows": 3})
     )
 
     class Meta:
         model = Message
-        fields = ("message",)  # Include the hidden 'user' field
+        fields = ("message", "user")
 
 
 # class MessageForm(forms.ModelForm):
