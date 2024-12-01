@@ -2,12 +2,16 @@
 {% load static %}
 
 {% block content %}
-  <h1>Hello, world!</h1>
+  <h1>Hello, welcome to the chat!</h1>
   <br>
   <br>
-  <p>Num messages: {{ num_messages }}</p>
+  <p>Total num messages in our chat: {{ num_messages }}</p>
+  <p>Your num visits: {{ num_visits }}</p>
+  <p>Last visit time: {{ last_visit }}</p>
   <br>
-  <button onclick="load_messages()" class="js-button" data-url="{% url 'json-message-list' %}">
+  <a class="btn btn-success" href={% url "message-list" %}>CHAT</a>
+  <br>
+  <button onclick="load_messages()" class="js-button btn btn-warning" data-url="{% url 'json-message-list' %}">
     Load messages
   </button>
   <span><<<---Sample how to use js</span>

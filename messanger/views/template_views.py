@@ -1,3 +1,4 @@
+from django.utils import timezone
 from django.contrib.admin.templatetags.admin_list import pagination
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
@@ -14,14 +15,20 @@ from django.views.generic import TemplateView
 from messanger.forms import MessageForm
 from messanger.models import Message
 
-
+@login_required()
 def home(request: HttpRequest) -> HttpResponse:
-    request.session["test_session_key"] = "our_test_key"
-    request.session["new_key"] = "new_key"
+    num_messages = Message.objects.count()
+    num_visits = request.session.get("num_visits", 1)
+    last_visit = request.session.get("last_visit", timezone.now().isoformat())
 
     context = {
-        "num_messages": Message.objects.count(),
+        "num_messages": num_messages,
+        "num_visits": num_visits,
+        "last_visit": last_visit,
     }
+
+    request.session["num_visits"] = num_visits + 1
+    request.session["last_visit"] = timezone.now().strftime("%Y-%m-%d %H:%M")
 
     return render(request, "messanger/home.html", context)
 
