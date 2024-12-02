@@ -8,7 +8,7 @@
   {% if forloop.last and page_obj.has_next %}
     <div 
         hx-trigger="revealed"
-        hx-get="{% url 'partial-message-list' %}{% query_transform page=page_obj.next_page_number %}"
+        hx-get="{% url 'partial-message-list' %}?{% query_transform page=page_obj.next_page_number %}"
         hx-swap="afterend"
     >
   {% else %}
