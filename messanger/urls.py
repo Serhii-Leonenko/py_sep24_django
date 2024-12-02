@@ -2,12 +2,9 @@ from django.urls import path
 
 from messanger.views.json_views import json_message_list
 from messanger.views.partial_views import PartialMessagesView
-from messanger.views.template_views import (
-    MessageCreateView,
-    MessageDetailView,
-    MessageListView,
-    home,
-)
+from messanger.views.template_views import (MessageCreateView,
+                                            MessageDetailView, MessageListView,
+                                            home)
 
 template_urlpatterns = [
     path("", home, name="home"),

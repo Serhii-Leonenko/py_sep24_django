@@ -4,7 +4,7 @@
 {% block content %}
   <ul class="list-group message-list" id="messages" hx-get="{% url 'partial-message-list' %}" hx-trigger="load">
   </ul>
-
+  <br>
   <form
       hx-post="{% url 'message-create' %}"
       hx-target=".message-list"

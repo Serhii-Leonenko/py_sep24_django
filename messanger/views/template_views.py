@@ -1,19 +1,14 @@
-from django.utils import timezone
-from django.contrib.admin.templatetags.admin_list import pagination
-from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.core.paginator import Paginator
-from django.http import HttpRequest, HttpResponse, HttpResponseRedirect, JsonResponse
-from django.shortcuts import get_object_or_404, render
-from django.template.context_processors import request
-from django.urls import reverse
+from django.http import HttpRequest, HttpResponse
+from django.shortcuts import render
+from django.utils import timezone
 from django.views import View, generic
-from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import TemplateView
 
 from messanger.forms import MessageForm
 from messanger.models import Message
+
 
 @login_required()
 def home(request: HttpRequest) -> HttpResponse:
