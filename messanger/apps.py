@@ -6,4 +6,4 @@ class MessangerConfig(AppConfig):
     name = "messanger"
 
     def ready(self):
-        import messanger.signals
+        import messanger.signals # noqa

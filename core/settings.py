@@ -1,7 +1,6 @@
 import os
 from pathlib import Path
 
-from django.conf.global_settings import AUTH_USER_MODEL
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -152,3 +151,21 @@ EMAIL_PORT = 587
 
 # ttl activation token
 PASSWORD_RESET_TIMEOUT = 14400
+
+AUTH_USER_MODEL = "accounts.User"
+
+STORAGES = {
+    "default": {
+        "BACKEND": "storages.backends.dropbox.DropboxStorage",
+        "OPTIONS": {
+            "oauth2_access_token": os.environ["DROPBOX_ACCESS_TOKEN"],
+            "oauth2_refresh_token": os.environ["DROPBOX_REFRESH_TOKEN"],
+            "app_secret": os.environ["DROPBOX_APP_SECRET"],
+            "app_key": os.environ["DROPBOX_APP_KEY"],
+            "root_path": "/media/"
+        },
+    },
+    "staticfiles": {
+        "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
+    },
+}
